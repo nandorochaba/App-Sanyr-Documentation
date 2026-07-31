@@ -13,51 +13,51 @@
 </p>
 
 <p align="center">
-  <strong>Uma plataforma SaaS multi-tenant focada em agendamentos de beleza e bem-estar, com uma interface premium e experiência impecável.</strong>
+  <strong>Plataforma SaaS multi-tenant voltada para agendamentos de serviços, com ênfase em alto desempenho, estabilidade e arquitetura WhiteLabel.</strong>
 </p>
 
 ---
 
-## 📌 O Projeto
+## 1. Visão Geral do Projeto
 
-O **Sanyr** é um Software as a Service (SaaS) desenvolvido para salões de beleza, barbearias, estúdios de estética e clínicas. A plataforma resolve o desafio da gestão de agendas e conflitos de horários, automatizando as marcações e fornecendo um painel administrativo poderoso para os gestores.
+O **Sanyr** é um Software as a Service (SaaS) corporativo desenvolvido para otimizar a gestão de agendas e o relacionamento com o cliente em estabelecimentos focados em serviços com hora marcada. A plataforma mitiga conflitos de horários, automatiza o processo de reservas e fornece um painel administrativo robusto para controle operacional.
 
-O grande diferencial do sistema é sua abordagem **Dual Theme**:
-- **Visão do Cliente (WhiteLabel):** Adapta as cores e a identidade visual da interface pública de acordo com a marca do estabelecimento, proporcionando uma experiência de reserva contínua e imersiva.
-- **Visão do Gestor (Premium Dark Theme):** O painel de administração (`/admin`) utiliza um tema escuro e sofisticado de alto contraste, ideal para gestores que passam horas no sistema sem fadiga visual.
+A arquitetura do sistema baseia-se no conceito de **Dual Theme**:
+- **Interface do Cliente (WhiteLabel):** Adapta-se dinamicamente à identidade visual da marca (tenant) atendida, garantindo consistência visual e imersão durante o fluxo de agendamento.
+- **Interface Administrativa (Premium Dark Theme):** O painel de gestão (`/admin`) adota um tema escuro de alto contraste, projetado ergonomicamente para reduzir a fadiga visual de operadores e gestores durante jornadas prolongadas de uso.
 
 ---
 
-## 📸 Screenshots e Telas
+## 2. Interface e Telas
 
-*(Crie a pasta `docs/screenshots` na raiz do seu repositório e adicione as imagens reais do projeto com os nomes abaixo para visualizá-las aqui)*
+*(Nota estrutural: Adicione as evidências visuais no diretório `docs/screenshots` na raiz do projeto)*
 
-| Interface do Cliente (Funil de Agendamento) | Painel Administrativo (Premium Dark) |
+| Visão do Cliente (Fluxo de Agendamento) | Painel Administrativo (Gestão) |
 | :---: | :---: |
 | <img src="docs/screenshots/client_home.png" alt="Home Cliente" width="400"/> | <img src="docs/screenshots/admin_dashboard.png" alt="Admin Dashboard" width="400"/> |
 | <img src="docs/screenshots/client_booking.png" alt="Fluxo de Reserva" width="400"/> | <img src="docs/screenshots/admin_agenda.png" alt="Admin Agenda" width="400"/> |
 
 ---
 
-## ✨ Principais Funcionalidades
+## 3. Principais Funcionalidades
 
-### 💄 Para o Cliente (App WhiteLabel)
-- **Reserva Autônoma (3 Cliques):** Sem necessidade de criar contas e gravar senhas. O agendamento é rápido e fluido.
-- **Identidade Visual Dinâmica:** As cores da marca do estabelecimento refletem instantaneamente nos botões, fundos e textos.
-- **Visualização de Portfólio:** Acesso a fotos de trabalhos anteriores e avaliação dos profissionais.
-- **Mobile-First:** Design otimizado para celulares, garantindo fluidez (zero Cumulative Layout Shift) e micro-animações requintadas.
+### Funcionalidades do Cliente (WhiteLabel)
+- **Reserva Autônoma Otimizada:** Fluxo de conversão reduzido a três etapas, dispensando a exigência de criação de contas ou gerenciamento de senhas pelo usuário final.
+- **Injeção de Identidade Visual:** As variáveis de design do lojista (tenant) refletem-se em tempo real em componentes estruturais (botões, superfícies e tipografia).
+- **Apresentação de Portfólio:** Módulo integrado para exibição de trabalhos e currículo dos profissionais associados.
+- **Arquitetura Mobile-First:** Design estruturado para dispositivos móveis com métricas controladas de Cumulative Layout Shift (CLS) e carregamento otimizado.
 
-### 💼 Para o Gestor (Admin Dashboard)
-- **Agenda Inteligente:** Calendário diário e semanal e algoritmo automático anti-conflito de horários.
-- **Gestão de Equipe e Serviços:** Cadastre profissionais, delegue serviços, configure a duração e a precificação de forma independente.
-- **Login Seguro e Moderno:** Autenticação via Google OAuth 2.0 e recuperação de senhas segura por Token Criptografado.
-- **Dashboard de Métricas:** Visualização clara da performance do negócio utilizando "Coloração Semântica" (Azul para volumes, Verde para lucro, Amarelo para alertas, Vermelho para perdas).
+### Funcionalidades do Gestor (Dashboard Administrativo)
+- **Motor de Agendamento Inteligente:** Algoritmo proprietário para alocação de tempo, cálculo de intervalos e prevenção de sobreposição de horários.
+- **Gestão Operacional:** Controle independente de equipe, catálogo de serviços, precificação e regras de expediente por profissional.
+- **Segurança de Acesso:** Autenticação consolidada via Google OAuth 2.0 e sistema de recuperação de credenciais baseado em tokens criptografados com tempo de expiração.
+- **Painel Analítico:** Dashboards operacionais empregando semântica de cores padrão (Azul para volumetria, Verde para receita, Amarelo para alertas, Vermelho para churn/perdas).
 
 ---
 
-## 🏗 Arquitetura do Sistema
+## 4. Arquitetura do Sistema
 
-A plataforma Sanyr utiliza uma robusta arquitetura dividida em 3 camadas (Frontend SPA, Backend REST API, e Cloud Database):
+A solução foi concebida sob uma arquitetura de três camadas escaláveis (Frontend SPA, Backend REST API e Cloud Database):
 
 ```mermaid
 graph TD
@@ -90,125 +90,123 @@ graph TD
 
 ---
 
-## 🛠 Tecnologias Utilizadas
+## 5. Stack Tecnológico
 
-**Frontend:**
+**Camada de Apresentação (Frontend):**
 - [React 18](https://reactjs.org/) + [Vite](https://vitejs.dev/)
-- [Tailwind CSS v4](https://tailwindcss.com/) (Com suporte nativo a Design System)
-- [TypeScript](https://www.typescriptlang.org/)
-- Google OAuth `@react-oauth/google`
+- [Tailwind CSS v4](https://tailwindcss.com/)
+- [TypeScript](https://www.typescriptlang.org/) rigorosamente tipado
+- Autenticação Google (`@react-oauth/google`)
 
-**Backend:**
+**Camada de Serviços (Backend):**
 - [Node.js](https://nodejs.org/) + [Express](https://expressjs.com/)
-- [Mongoose](https://mongoosejs.com/) (ODM para MongoDB)
-- Autenticação e Segurança (Tokens Criptografados + `google-auth-library`)
+- [Mongoose](https://mongoosejs.com/) (Object Data Modeling)
+- `google-auth-library` para integridade de tokens
 
-**Infraestrutura & Deploy:**
-- [Vercel](https://vercel.com/) (Frontend estático e Serverless Functions no Backend)
-- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) (Banco de dados de documentos na nuvem)
+**Camada de Infraestrutura:**
+- [Vercel](https://vercel.com/) (Hospedagem de recursos estáticos e Serverless Functions)
+- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) (Persistência de dados)
 
 ---
 
-## 📂 Estrutura do Repositório
+## 6. Estrutura do Repositório
 
 ```text
 Beauty Service Booking App/
-├── api/                   # Arquivo de entrada para Vercel Serverless Functions
-├── frontend/              # Código fonte do Frontend (SPA React + Vite)
+├── api/                   # Mapeamento para Vercel Serverless Functions
+├── frontend/              # Source da aplicação SPA (React + Vite)
 │   └── src/
-│       ├── components/    # Primitivas (UI) e Elementos Reutilizáveis
-│       ├── contexts/      # Hooks de Estado Global (AuthContext, TenantContext)
-│       ├── layouts/       # Shell (Admin Layout e Client Layout)
+│       ├── components/    # Primitivas de UI corporativa
+│       ├── contexts/      # Hooks de Estado (AuthContext, TenantContext)
+│       ├── layouts/       # Componentes de infraestrutura visual (Shell)
 │       ├── pages/
-│       │   ├── admin/     # Telas do Painel Administrativo
-│       │   └── client/    # Telas do Funil de Agendamento (WhiteLabel)
-│       └── services/      # Integração com a API Backend (Axios/Fetch)
+│       │   ├── admin/     # Módulos do Painel Administrativo
+│       │   └── client/    # Módulos do Fluxo de Agendamento (WhiteLabel)
+│       └── services/      # Camada de comunicação de rede (API Client)
 │
-├── backend/               # Código fonte do Backend (Express + Node.js)
+├── backend/               # Source da API RESTful (Express + Node.js)
 │   └── src/
-│       ├── db/            # Script Seeders e Conexão BD
-│       ├── models/        # Schemas do MongoDB (Empresa, Usuario, Servico...)
-│       ├── routes/        # Controladores e Endpoints REST
-│       └── server.ts      # Instância Central do Express.js
+│       ├── db/            # Scripts de Seed e Inicialização
+│       ├── models/        # Entidades do Domínio Mongoose
+│       ├── routes/        # Mapeamento de Controladores e Endpoints
+│       └── server.ts      # Configuração e Entrypoint do Express.js
 ```
 
 ---
 
-## 🚀 Como Executar o Projeto Localmente
+## 7. Instruções para Implantação Local
 
 ### Pré-requisitos
-- **Node.js** (v18+)
-- Conta no **MongoDB Atlas** (ou MongoDB local em execução)
-- Credenciais OAuth do **Google Cloud Console**
+- **Node.js** (v18 ou superior)
+- Instância do **MongoDB** (Local ou Cluster Atlas)
+- Credenciais provisionadas no **Google Cloud Console**
 
-### 1. Clonando o repositório
+### Passos de Execução
+1. Realize o clone do repositório:
 ```bash
 git clone https://github.com/nandorochaba/Sanyr-Agendamentos-App.git
 cd Sanyr-Agendamentos-App
 ```
 
-### 2. Configurando o Backend
+2. Configure a camada de serviços (Backend):
 ```bash
 cd backend
 npm install
 ```
-Crie um arquivo `.env` na raiz da pasta `backend` com as variáveis:
+Configure o ambiente criando o arquivo `.env`:
 ```env
 PORT=3000
 MONGODB_URI=mongodb+srv://<usuario>:<senha>@<cluster>.mongodb.net/sanyr_booking
 GOOGLE_CLIENT_ID=seu_client_id_do_google
-JWT_SECRET=sua_chave_secreta_aqui
+JWT_SECRET=sua_chave_secreta
 ```
-Inicie o servidor de desenvolvimento:
+Inicie a aplicação:
 ```bash
 npm run dev
 ```
 
-### 3. Configurando o Frontend
-Abra um novo terminal e navegue para a pasta `frontend`:
+3. Configure a camada de apresentação (Frontend):
+Em um novo terminal:
 ```bash
 cd frontend
 npm install
-```
-Inicie o servidor Vite:
-```bash
 npm run dev
 ```
-A aplicação estará disponível por padrão em `http://localhost:8443`.
+O serviço estará acessível no endereço padrão `http://localhost:8443`.
 
 ---
 
-## 🔒 Mecanismos de Autenticação e Segurança
+## 8. Segurança e Conformidade
 
-- **Senha Tradicional:** Suporte nativo offline/online. Senhas trafegadas são validadas de forma estrita.
-- **Google OAuth 2.0:** O Backend verifica rigorosamente o *ID Token* emitido pelo front para impedir falsificações e automatiza o *Onboarding* criando tenants, categorias e horários base no primeiro login.
-- **Recuperação de Acesso:** O sistema gera tokens hexadecimais aleatórios válidos por 1h (enviados por e-mail) para redefinições de segurança seguras.
-
----
-
-## 🌐 Deploy em Produção (Vercel)
-
-O projeto suporta hospedagem **Monorepo** diretamente na Vercel:
-1. Conecte o repositório Github à Vercel.
-2. Nas configurações do Vercel, não sobrescreva as pastas padrão (O `vercel.json` na raiz gerencia os diretórios e `rewrites`).
-3. Adicione as variáveis de ambiente necessárias (MONGODB_URI, GOOGLE_CLIENT_ID).
-4. O Vercel efetuará o build do Frontend estaticamente e hospedará o Backend como uma Serverless Function (`api/index.ts`).
+- **Autenticação Proprietária:** Suporte padrão com validação estrita de tráfego de senhas em plain-text.
+- **Autenticação Federated (Google OAuth 2.0):** Validação de integridade do *ID Token* realizada exclusivamente na camada backend (Server-side) mitigando ataques de personificação.
+- **Recuperação de Credenciais:** Emissão de tokens hexadecimais aleatorizados com Time-To-Live (TTL) de 60 minutos, garantindo aderência a práticas seguras de reset de senhas.
 
 ---
 
-## ⚖️ Licença e Uso (All Rights Reserved)
+## 9. Implantação em Produção (Vercel)
 
-Este repositório é um **Showcase (Portfólio)**. Todo o código-fonte, design, logotipos e arquitetura deste projeto são propriedade exclusiva da **Sanyr Tecnologia** e estão protegidos pelas leis de Direitos Autorais. 
-
-**O que você PODE fazer:**
-- Ler, estudar e avaliar a estrutura do código (para fins de recrutamento ou avaliação técnica).
-
-**O que você NÃO PODE fazer:**
-- Clonar, copiar, hospedar, distribuir ou lucrar comercialmente com este software.
-- Utilizar trechos de código estruturais deste SaaS para criar um produto concorrente.
-
-Qualquer uso não autorizado em ambiente de produção está sujeito a medidas legais cabíveis.
+A solução suporta integração direta (Monorepo) através da plataforma Vercel:
+1. Sincronize o repositório na plataforma.
+2. O arquivo `vercel.json` gerenciará os rewrites e rotas automaticamente (não sobrescreva as diretrizes de Build).
+3. Insira as variáveis de ambiente necessárias nas configurações do projeto (`MONGODB_URI`, `GOOGLE_CLIENT_ID`).
+4. A implantação construirá o frontend de forma estática e alocará a API RESTful em funções Serverless (`api/index.ts`).
 
 ---
 
-**Desenvolvido com sofisticação pela Sanyr Tecnologia.**
+## 10. Licença e Direitos de Uso (All Rights Reserved)
+
+Este repositório é designado exclusivamente como **Showcase Técnico (Portfólio)**. A totalidade do código-fonte, arquitetura, lógicas de negócio, interfaces e logotipos contidos neste projeto constituem propriedade intelectual exclusiva da **Sanyr Tecnologia**, protegidos sob a legislação vigente de Direitos Autorais.
+
+**Permissões Concedidas:**
+- Visualização, leitura e análise do código-fonte para fins estritamente avaliativos, educacionais ou de processos seletivos.
+
+**Restrições (Não Permitido):**
+- É expressamente proibida a cópia, clonagem, modificação, distribuição, hospedagem ou qualquer exploração comercial deste software.
+- É vedada a utilização de componentes estruturais, lógicas sistêmicas ou identidade visual para o desenvolvimento de soluções concorrentes.
+
+Qualquer violação aos termos estabelecidos estará sujeita a providências legais.
+
+---
+
+**Sanyr Tecnologia.** Todos os direitos reservados.
