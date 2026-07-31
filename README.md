@@ -1,5 +1,5 @@
 <h1 align="center">
-  Sanyr - Sistema de Agendamentos WhiteLabel
+  Sanyr - Sistema de Agendamentos
 </h1>
 
 <p align="center">
