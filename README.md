@@ -1,212 +1,142 @@
-<h1 align="center">
-  Sanyr - Sistema de Agendamentos
-</h1>
+# Sanyr - Arquitetura e Documentação Técnica (Multi-tenant SaaS)
 
-<p align="center">
-  <img src="https://img.shields.io/badge/React-18-blue.svg" alt="React" />
-  <img src="https://img.shields.io/badge/Vite-5-646CFF.svg" alt="Vite" />
-  <img src="https://img.shields.io/badge/Node.js-Express-339933.svg" alt="Node.js" />
-  <img src="https://img.shields.io/badge/MongoDB-Atlas-47A248.svg" alt="MongoDB" />
-  <img src="https://img.shields.io/badge/TailwindCSS-v4-38B2AC.svg" alt="Tailwind CSS" />
-  <img src="https://img.shields.io/badge/TypeScript-Ready-3178C6.svg" alt="TypeScript" />
-  <img src="https://img.shields.io/badge/License-All_Rights_Reserved-red.svg" alt="License" />
-</p>
+O Sanyr é uma plataforma Software as a Service (SaaS) corporativa, de arquitetura multi-tenant, projetada para otimizar a gestão e o agendamento em estabelecimentos de serviços (salões de beleza, clínicas, barbearias). O sistema atua como um núcleo operacional, orquestrando agendas, profissionais e métricas financeiras.
 
-<p align="center">
-  <strong>Plataforma SaaS multi-tenant voltada para agendamentos de serviços, com ênfase em alto desempenho, estabilidade e arquitetura WhiteLabel.</strong>
-</p>
+Este repositório tem como objetivo servir como **documentação técnica e portfólio**, evidenciando as decisões arquiteturais, os padrões de projeto (Design Patterns) e as boas práticas de engenharia de software aplicadas durante todo o ciclo de desenvolvimento.
 
 ---
 
-## 1. Visão Geral do Projeto
+## 1. Visão Geral da Arquitetura
 
-O **Sanyr** é um Software as a Service (SaaS) corporativo desenvolvido para otimizar a gestão de agendas e o relacionamento com o cliente em estabelecimentos focados em serviços com hora marcada. A plataforma mitiga conflitos de horários, automatiza o processo de reservas e fornece um painel administrativo robusto para controle operacional.
+A aplicação foi concebida sob uma arquitetura desacoplada em três camadas (Three-tier Architecture):
+- **Camada de Apresentação (Frontend)**: Single Page Application (SPA) desenvolvida com React e Vite.
+- **Camada de Aplicação (Backend)**: API RESTful construída com Node.js e Express.
+- **Camada de Dados**: Banco de dados não-relacional (NoSQL) gerenciado via MongoDB Atlas.
 
-A arquitetura do sistema baseia-se no conceito de **Dual Theme**:
-- **Interface do Cliente (WhiteLabel):** Adapta-se dinamicamente à identidade visual da marca (tenant) atendida, garantindo consistência visual e imersão durante o fluxo de agendamento.
-- **Interface Administrativa (Premium Dark Theme):** O painel de gestão (`/admin`) adota um tema escuro de alto contraste, projetado ergonomicamente para reduzir a fadiga visual de operadores e gestores durante jornadas prolongadas de uso.
-
----
-
-## 2. Interface e Telas
-
-*(Nota estrutural: Adicione as evidências visuais no diretório `docs/screenshots` na raiz do projeto)*
-
-| Visão do Cliente (Fluxo de Agendamento) | Painel Administrativo (Gestão) |
-| :---: | :---: |
-| <img src="docs/screenshots/client_home.png" alt="Home Cliente" width="400"/> | <img src="docs/screenshots/admin_dashboard.png" alt="Admin Dashboard" width="400"/> |
-| <img src="docs/screenshots/client_booking.png" alt="Fluxo de Reserva" width="400"/> | <img src="docs/screenshots/admin_agenda.png" alt="Admin Agenda" width="400"/> |
+### 1.1. Estratégia de Interface Dupla (Dual Theme)
+O frontend é lógica e visualmente segmentado para atender a dois perfis de usuários com necessidades distintas:
+- **Interface do Cliente Final (White-label)**: Uma interface *Mobile-First* que recebe injeção dinâmica de propriedades de estilo (cores, tipografia e logotipos) com base nas configurações do *tenant* (lojista). O objetivo é garantir uma imersão contínua, onde o cliente não percebe a transição para um sistema de terceiros.
+- **Painel Administrativo (Gestão)**: Uma interface densa em dados, projetada para operadores e gestores. Adota um *Dark Theme* customizado e de alto contraste. Esta decisão de UI/UX visa reduzir a fadiga visual (Eye Strain) durante jornadas prolongadas de uso e facilitar a leitura de dashboards analíticos.
 
 ---
 
-## 3. Principais Funcionalidades
+## 2. Stack Tecnológico e Decisões de Engenharia
 
-### Funcionalidades do Cliente (WhiteLabel)
-- **Reserva Autônoma Otimizada:** Fluxo de conversão reduzido a três etapas, dispensando a exigência de criação de contas ou gerenciamento de senhas pelo usuário final.
-- **Injeção de Identidade Visual:** As variáveis de design do lojista (tenant) refletem-se em tempo real em componentes estruturais (botões, superfícies e tipografia).
-- **Apresentação de Portfólio:** Módulo integrado para exibição de trabalhos e currículo dos profissionais associados.
-- **Arquitetura Mobile-First:** Design estruturado para dispositivos móveis com métricas controladas de Cumulative Layout Shift (CLS) e carregamento otimizado.
+A escolha das tecnologias priorizou a experiência de desenvolvimento (DX), a performance da aplicação e a manutenibilidade a longo prazo.
 
-### Funcionalidades do Gestor (Dashboard Administrativo)
-- **Motor de Agendamento Inteligente:** Algoritmo proprietário para alocação de tempo, cálculo de intervalos e prevenção de sobreposição de horários.
-- **Gestão Operacional:** Controle independente de equipe, catálogo de serviços, precificação e regras de expediente por profissional.
-- **Segurança de Acesso:** Autenticação consolidada via Google OAuth 2.0 e sistema de recuperação de credenciais baseado em tokens criptografados com tempo de expiração.
-- **Painel Analítico:** Dashboards operacionais empregando semântica de cores padrão (Azul para volumetria, Verde para receita, Amarelo para alertas, Vermelho para churn/perdas).
+### 2.1. Ecossistema Frontend
+- **React 18 & Vite**: Optou-se por React em conjunto com Vite em detrimento de frameworks Server-Side Rendering (SSR) como Next.js. O sistema exige uma arquitetura estrita de SPA, onde a velocidade de renderização no lado do cliente (Client-side Rendering) e transições fluidas no painel administrativo são prioritárias. O Vite substitui bundlers tradicionais (como Webpack/Create React App), reduzindo drasticamente o tempo de *cold start* e otimizando o *Hot Module Replacement* (HMR) através de módulos ES nativos.
+- **TypeScript**: Adotado rigorosamente em toda a base de código para garantir tipagem estática (Type Safety). A detecção de erros em tempo de compilação, interfaces auto-documentadas e a segurança em refatorações complexas justificam a curva de aprendizado e o overhead inicial.
+- **Tailwind CSS v4**: Utilizado para a estilização baseada em utilitários (*Utility-first*). A escolha do Tailwind frente a bibliotecas de CSS-in-JS (ex: Styled Components) baseia-se na performance (ausência de processamento CSS em tempo de execução) e na facilidade de implementação do conceito White-label. Os temas dos *tenants* são aplicados injetando variáveis CSS na raiz do DOM, que o Tailwind mapeia dinamicamente.
 
----
+### 2.2. Ecossistema Backend
+- **Node.js & Express**: Fornece um framework leve e não-opinativo para a API REST. Embora frameworks opinativos como NestJS ofereçam padrões arquiteturais rígidos (úteis em times massivos), o Express permite uma orquestração altamente customizada de middlewares de roteamento, essencial para lidar com os fluxos específicos de autenticação e recepção de webhooks deste projeto.
+- **MongoDB & Mongoose (ODM)**: A abordagem NoSQL foi selecionada devido à variabilidade das estruturas de dados exigidas por diferentes *tenants* (ex: atributos customizados de serviços, regras flexíveis de expediente). O Mongoose atua como camada de validação e modelagem na aplicação, garantindo integridade sem comprometer a flexibilidade do schema.
 
-## 4. Arquitetura do Sistema
-
-A solução foi concebida sob uma arquitetura de três camadas escaláveis (Frontend SPA, Backend REST API e Cloud Database):
-
-```mermaid
-graph TD
-    subgraph Cliente Navegador (Vercel Production)
-        RootApp["Redirect Raiz (/) ➔ /admin/login"]
-        ClientApp["Public Client Funnel (/:tenantSlug)"]
-        AdminApp["Admin Dashboard (/admin)"]
-        GoogleOAuth["Google Sign-In (@react-oauth/google)"]
-    end
-
-    subgraph Server Layer (Express API)
-        ExpressAPI["Node.js + Express REST API (Porta 3000)"]
-        GoogleVerify["Google OAuth 2.0 Verifier"]
-        PasswordResetEngine["Crypto Password Reset Token"]
-        ConflictEngine["Prevenção de Conflitos & Validações"]
-    end
-
-    subgraph Database Layer (Cloud)
-        MongoDB[(MongoDB Atlas Cloud)]
-    end
-
-    RootApp --> AdminApp
-    ClientApp <-->|HTTP / JSON| ExpressAPI
-    AdminApp <-->|HTTP / JSON| ExpressAPI
-    GoogleOAuth <-->|ID Token| GoogleVerify
-    ExpressAPI <--> PasswordResetEngine
-    ExpressAPI <--> ConflictEngine
-    ExpressAPI <-->|Mongoose ODM| MongoDB
-```
+### 2.3. Integrações e Infraestrutura
+- **Evolution API (WhatsApp)**: O serviço de mensageria assíncrona (lembretes automáticos) foi integrado via Evolution API. Esta decisão técnica prioriza a flexibilidade de gerenciamento de sessões multi-device e a viabilidade econômica, em contraste com a API Oficial da Meta (Cloud API), que impõe custos por conversa e dependência de provedores (BSPs).
+- **Cloudflare Tunnels**: Ferramenta essencial na infraestrutura de desenvolvimento e produção. Permite expor endpoints locais de forma segura à internet, mecanismo obrigatório para o recebimento de webhooks (confirmações de leitura, recebimento de mensagens) advindos da Evolution API em tempo real.
 
 ---
 
-## 5. Stack Tecnológico
+## 3. Implementações Técnicas Essenciais
 
-**Camada de Apresentação (Frontend):**
-- [React 18](https://reactjs.org/) + [Vite](https://vitejs.dev/)
-- [Tailwind CSS v4](https://tailwindcss.com/)
-- [TypeScript](https://www.typescriptlang.org/) rigorosamente tipado
-- Autenticação Google (`@react-oauth/google`)
+### 3.1. Autenticação e Segurança (Auth)
+O sistema implementa uma estratégia de segurança híbrida:
+- **Google OAuth 2.0 (Federated Identity)**: Implementado no cliente através da biblioteca `@react-oauth/google`. O frontend obtém um *ID Token* que é interceptado pelo backend. O servidor valida criptograficamente a assinatura deste token utilizando a biblioteca oficial `google-auth-library` antes de emitir um JWT (*JSON Web Token*) interno. Este fluxo previne vetores de ataque de personificação (Spoofing).
+- **Gerenciamento Criptográfico de Credenciais**: Para autenticação padrão, as senhas recebem hash via `bcrypt`. Fluxos de recuperação de senha utilizam tokens randômicos gerados pelo módulo nativo `crypto` do Node, armazenados no MongoDB com índices de expiração rigorosos (Time-To-Live - TTL).
 
-**Camada de Serviços (Backend):**
-- [Node.js](https://nodejs.org/) + [Express](https://expressjs.com/)
-- [Mongoose](https://mongoosejs.com/) (Object Data Modeling)
-- `google-auth-library` para integridade de tokens
+### 3.2. Motor de Agendamento e Prevenção de Conflitos
+A lógica de negócio central (Core Domain) reside no motor de alocação de horários. Para mitigar *race conditions* (condições de corrida) e *double-bookings* (duplo agendamento):
+- O backend calcula matrizes de disponibilidade em tempo real, cruzando regras de expediente, pausas (ex: horário de almoço) e agendamentos consolidados.
+- Transações críticas no banco de dados utilizam operações atômicas (quando aplicável) para assegurar a consistência dos dados sob alta concorrência.
 
-**Camada de Infraestrutura:**
-- [Vercel](https://vercel.com/) (Hospedagem de recursos estáticos e Serverless Functions)
-- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) (Persistência de dados)
+### 3.3. Gerenciamento de Estado (State Management)
+A API de Contexto do React (Context API) é utilizada para o gerenciamento de estados globais estáticos ou de baixa volatilidade (ex: Sessão do Usuário, Configurações do Tenant). Bibliotecas complexas como Redux ou Zustand foram omitidas intencionalmente; a aplicação delega a complexidade ao *Server State*, gerenciado através de hooks customizados e instâncias abstraídas de requisições HTTP, mantendo o *bundle* do cliente otimizado.
 
 ---
 
-## 6. Estrutura do Repositório
+## 4. Estrutura do Repositório (Monorepo)
+
+O projeto é estruturado separando os domínios de forma lógica e escalar:
 
 ```text
 Beauty Service Booking App/
-├── api/                   # Mapeamento para Vercel Serverless Functions
-├── frontend/              # Source da aplicação SPA (React + Vite)
-│   └── src/
-│       ├── components/    # Primitivas de UI corporativa
-│       ├── contexts/      # Hooks de Estado (AuthContext, TenantContext)
-│       ├── layouts/       # Componentes de infraestrutura visual (Shell)
-│       ├── pages/
-│       │   ├── admin/     # Módulos do Painel Administrativo
-│       │   └── client/    # Módulos do Fluxo de Agendamento (WhiteLabel)
-│       └── services/      # Camada de comunicação de rede (API Client)
+├── frontend/                 # Client-side SPA (React + Vite)
+│   ├── src/
+│   │   ├── components/       # Primitivas de UI reutilizáveis e stateless
+│   │   ├── contexts/         # Provedores de estado global (Auth, Tenant)
+│   │   ├── layouts/          # Componentes estruturais (Admin Layout, Client Layout)
+│   │   ├── pages/            # View components (Páginas do roteador)
+│   │   ├── services/         # Camada de comunicação (Axios interceptors, API Client)
+│   │   └── utils/            # Funções puras e formatadores (Helpers)
+│   └── vite.config.ts        # Configurações do bundler
 │
-├── backend/               # Source da API RESTful (Express + Node.js)
-│   └── src/
-│       ├── db/            # Scripts de Seed e Inicialização
-│       ├── models/        # Entidades do Domínio Mongoose
-│       ├── routes/        # Mapeamento de Controladores e Endpoints
-│       └── server.ts      # Configuração e Entrypoint do Express.js
+├── backend/                  # Server-side REST API (Node.js)
+│   ├── src/
+│   │   ├── controllers/      # Handlers de requisição e formatação de resposta HTTP
+│   │   ├── middlewares/      # Interceptadores (Validação de JWT, Tratamento de Erros)
+│   │   ├── models/           # Schemas do Mongoose (Data Access Objects)
+│   │   ├── routes/           # Mapeamento de endpoints da API
+│   │   ├── services/         # Regras de negócio (Integração WhatsApp, Lógica de Agenda)
+│   │   └── server.ts         # Ponto de entrada (Entrypoint) da aplicação
+│
+└── evolution-api/            # Instância do microserviço de mensageria
 ```
 
 ---
 
-## 7. Instruções para Implantação Local
+## 5. Setup do Ambiente de Desenvolvimento
+
+Instruções para provisionamento e execução da stack em ambiente local:
 
 ### Pré-requisitos
-- **Node.js** (v18 ou superior)
-- Instância do **MongoDB** (Local ou Cluster Atlas)
-- Credenciais provisionadas no **Google Cloud Console**
+- Node.js (v18+)
+- Instância do MongoDB (Local ou Cluster Atlas)
+- Cloudflared CLI
+- Projeto configurado no Google Cloud Console (Credenciais OAuth)
 
-### Passos de Execução
-1. Realize o clone do repositório:
-```bash
-git clone https://github.com/nandorochaba/Sanyr-Agendamentos-App.git
-cd Sanyr-Agendamentos-App
-```
+### Inicialização da Camada de Aplicação (Backend)
+1. Acesse o diretório `backend` e instale as dependências: `npm install`
+2. Crie o arquivo `.env` (baseado no `.env.example`) e configure as variáveis obrigatórias (`MONGODB_URI`, `JWT_SECRET`, `GOOGLE_CLIENT_ID`).
+3. Inicie o servidor de desenvolvimento: `npm run dev`
 
-2. Configure a camada de serviços (Backend):
-```bash
-cd backend
-npm install
-```
-Configure o ambiente criando o arquivo `.env`:
-```env
-PORT=3000
-MONGODB_URI=mongodb+srv://<usuario>:<senha>@<cluster>.mongodb.net/sanyr_booking
-GOOGLE_CLIENT_ID=seu_client_id_do_google
-JWT_SECRET=sua_chave_secreta
-```
-Inicie a aplicação:
-```bash
-npm run dev
-```
+### Inicialização do Serviço de Mensageria (Evolution API)
+1. Acesse o diretório `evolution-api` e configure as variáveis de ambiente necessárias.
+2. Inicialize o serviço: `npm run start`
+3. Exponha a porta local via túnel seguro para recebimento de webhooks: 
+   `cloudflared tunnel run --url http://127.0.0.1:3000 <nome-do-tunel>`
 
-3. Configure a camada de apresentação (Frontend):
-Em um novo terminal:
-```bash
-cd frontend
-npm install
-npm run dev
-```
-O serviço estará acessível no endereço padrão `http://localhost:8443`.
+### Inicialização da Camada de Apresentação (Frontend)
+1. Acesse o diretório `frontend` e instale as dependências: `npm install`
+2. Inicie o servidor Vite: `npm run dev`
 
 ---
 
-## 8. Segurança e Conformidade
+## 6. Referências de Interface (UI/UX)
 
-- **Autenticação Proprietária:** Suporte padrão com validação estrita de tráfego de senhas em plain-text.
-- **Autenticação Federated (Google OAuth 2.0):** Validação de integridade do *ID Token* realizada exclusivamente na camada backend (Server-side) mitigando ataques de personificação.
-- **Recuperação de Credenciais:** Emissão de tokens hexadecimais aleatorizados com Time-To-Live (TTL) de 60 minutos, garantindo aderência a práticas seguras de reset de senhas.
+*Nota: As imagens ilustrativas abaixo demonstram a implementação técnica de layouts responsivos e injeção de variáveis CSS.*
 
----
-
-## 9. Implantação em Produção (Vercel)
-
-A solução suporta integração direta (Monorepo) através da plataforma Vercel:
-1. Sincronize o repositório na plataforma.
-2. O arquivo `vercel.json` gerenciará os rewrites e rotas automaticamente (não sobrescreva as diretrizes de Build).
-3. Insira as variáveis de ambiente necessárias nas configurações do projeto (`MONGODB_URI`, `GOOGLE_CLIENT_ID`).
-4. A implantação construirá o frontend de forma estática e alocará a API RESTful em funções Serverless (`api/index.ts`).
+| Módulo | Interface | Descrição Técnica |
+| :--- | :---: | :--- |
+| **Fluxo do Cliente (White-label)** | `<img src="docs/screenshots/client_home.png" width="400" alt="Interface Cliente"/>` | Interface adaptável. As classes do Tailwind herdam propriedades de variáveis CSS injetadas na renderização do *tenant*. |
+| **Motor de Agendamento** | `<img src="docs/screenshots/client_booking.png" width="400" alt="Fluxo de Agendamento"/>` | Funil de conversão em 3 etapas. Otimizado para reduzir a carga cognitiva, dispensando criação de credenciais. |
+| **Painel Administrativo** | `<img src="docs/screenshots/admin_dashboard.png" width="400" alt="Dashboard Gestão"/>` | Aplicação de *Dark Theme* nativo para consoles de gestão, priorizando o contraste em visualização de métricas (Charts). |
+| **Gestão de Agenda** | `<img src="docs/screenshots/admin_agenda.png" width="400" alt="Calendário Administrativo"/>` | Renderização complexa de grid de calendário para lidar com validação de choques de horário em tempo real. |
 
 ---
 
-## 10. Licença e Direitos de Uso (All Rights Reserved)
+## 7. Propriedade Intelectual e Licença
 
-Este repositório é designado exclusivamente como **Showcase Técnico (Portfólio)**. A totalidade do código-fonte, arquitetura, lógicas de negócio, interfaces e logotipos contidos neste projeto constituem propriedade intelectual exclusiva da **Sanyr Tecnologia**, protegidos sob a legislação vigente de Direitos Autorais.
+Este repositório é estritamente designado como **Documentação Técnica e Portfólio (Showcase)**.
+
+A totalidade do código-fonte, decisões de arquitetura, lógicas de negócio, interfaces de usuário (UI) e ativos de marca contidos neste projeto constituem propriedade intelectual exclusiva da **Sanyr Tecnologia**.
 
 **Permissões Concedidas:**
-- Visualização, leitura e análise do código-fonte para fins estritamente avaliativos, educacionais ou de processos seletivos.
+- Leitura, visualização e análise do código-fonte com o propósito exclusivo de avaliação técnica, processos seletivos e revisão educacional.
 
-**Restrições (Não Permitido):**
-- É expressamente proibida a cópia, clonagem, modificação, distribuição, hospedagem ou qualquer exploração comercial deste software.
-- É vedada a utilização de componentes estruturais, lógicas sistêmicas ou identidade visual para o desenvolvimento de soluções concorrentes.
+**Restrições:**
+- É terminantemente proibida a cópia, clonagem (fork), modificação, distribuição, hospedagem ou qualquer forma de exploração comercial ou não-comercial deste software sem autorização prévia por escrito.
+- É vedada a utilização de componentes estruturais, arquitetônicos ou visuais para o desenvolvimento de soluções concorrentes.
 
-Qualquer violação aos termos estabelecidos estará sujeita a providências legais.
-
----
-
-**Sanyr Tecnologia.** Todos os direitos reservados.
+**Copyright © Sanyr Tecnologia. Todos os direitos reservados (All Rights Reserved).**
